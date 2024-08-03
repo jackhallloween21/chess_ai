@@ -1,0 +1,62 @@
+def U1Turn(board):
+    while True:
+        try:
+            pos = int(input("\nEnter X position 1 to 9: "))
+            if pos < 1 or pos > 9:
+                raise ValueError
+            if board[pos - 1] != 0:  # Position filled
+                print("Wrong move! Position already taken.")
+            else:
+                board[pos - 1] = -1
+                break
+        except ValueError:
+            print("Invalid input! Please enter a number between 1 and 9.")
+
+def U2Turn(board):
+    while True:
+        try:
+            pos = int(input("Enter O position 1 to 9: "))
+            if pos < 1 or pos > 9:
+                raise ValueError
+            if board[pos - 1] != 0:  # Position filled
+                print("Wrong move! Position already taken.")
+            else:
+                board[pos - 1] = 1
+                break
+        except ValueError:
+            print("Invalid input! Please enter a number between 1 and 9.")
+
+def analyse(board):
+    cb = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
+    for i in range(8):
+        if board[cb[i][0]] != 0 and board[cb[i][0]] == board[cb[i][1]] and board[cb[i][0]] == board[cb[i][2]]:
+            return board[cb[i][0]]
+    return 0
+
+def main():
+    choice = int(input("Enter 1 for single or 2 for multi-player mode: "))
+    board = [0] * 9
+    if choice == 1:
+        print("AI vs Comp mode not implemented yet.")
+        return
+    else:
+        for i in range(9):
+            if analyse(board) != 0:
+                break
+            constboard(board)
+            if i % 2 == 0:
+                U1Turn(board)
+            else:
+                U2Turn(board)
+        constboard(board)
+    
+    result = analyse(board)
+    if result == 0:
+        print("\n\nDraw!")
+    elif result == -1:
+        print("\n\nUser1 won!")
+    else:
+        print("\n\nUser2 won!")
+
+if __name__ == "__main__":
+    main()
